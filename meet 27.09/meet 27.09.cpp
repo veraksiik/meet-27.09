@@ -3,9 +3,88 @@
 #include <string>
 
 
+class Cat {
+public:
+    Cat() :name_("MaminaRadost"), age_(13), gender_("Boy") {}
+    Cat(std::string name, int age, std::string gender) :
+        name_(name),
+        age_(age),
+        gender_(gender)
+    {}
+
+    std::string  GetName() const
+    {
+        return name_;
+    }
+    int GetAge() const
+    {
+        return age_;
+    }
+    std::string GetGender() const
+    {
+        return gender_;
+    }
+
+    void  SetName(std::string newName) 
+    {
+        name_ = newName;
+    }
+    void SetAge(int newAge) 
+    {
+        age_ = newAge;
+    }
+    void SetGender(std::string newGender) 
+    {
+        gender_ = newGender;
+    }
+
+
+    std::string Info()const 
+    {
+        std::string Info;
+        Info = "Name: " + name_ + ", ", "Age: " + std::to_string(age_) + ", ","Gender: " + gender_ + ". ";
+        return Info;
+    
+    
+    }
+private:
+    std::string name_;
+    std::string gender_;
+    int age_;
+
+
+};
+
 class ZooHotel 
 {
 public:
+
+    ZooHotel() {
+        name_ = "Default hotel";
+        cats_ = nullptr;
+        countOfCats_ = 0;
+    }
+    ZooHotel(const ZooHotel& other) {
+        name_ = other.name_;
+        cats_ = new Cat[countOfCats_];
+        countOfCats_ = other.countOfCats_;
+        for (int i = 0; i < countOfCats_; i++)
+        {
+            cats_[i] = other[i];
+        }
+    }
+
+    ZooHotel( ZooHotel&& other) {
+        name_ = "Default hotel";
+        cats_ = nullptr;
+        countOfCats_ = 0;
+
+        std::swap(name_, other.name_);
+        std::swap(cats_, other.cats_);
+        std::swap(countOfCats_, other.countOfCats_);
+
+       
+    }
 
     void AddCat(Cat& newCat) {
         if (!cats_) //cats_==nullptr
@@ -91,57 +170,11 @@ private:
 
 };
 
-class Cat {
-public:
-    Cat() :name_("MaminaRadost"), age_(13), gender_("Boy") {}
-    Cat(std::string name, int age, std::string gender) :
-        name_(name),
-        age_(age),
-        gender_(gender)
-    {}
-
-    std::string  GetName() const
-    {
-        return name_;
-    }
-    int GetAge() const
-    {
-        return age_;
-    }
-    std::string GetGender() const
-    {
-        return gender_;
-    }
-
-    void  SetName(std::string newName) 
-    {
-        name_ = newName;
-    }
-    void SetAge(int newAge) 
-    {
-        age_ = newAge;
-    }
-    void SetGender(std::string newGender) 
-    {
-        gender_ = newGender;
-    }
 
 
-    std::string Info()const 
-    {
-        std::string Info;
-        Info = "Name: " + name_ + ", ", "Age: " + std::to_string(age_) + ", ","Gender: " + gender_ + ". ";
-        return Info;
+void BlackMagic(ZooHotel hotel_other) {
     
-    
-    }
-private:
-    std::string name_;
-    std::string gender_;
-    int age_;
-
-
-};
+}
 
 //Связанные классы
 //использование
@@ -152,7 +185,23 @@ private:
 
 int main()
 {
-    Cat cat;
-    std::cout << cat.Info();
+    ZooHotel hotel;
+    Cat hobo;
+    hobo.SetName("Tom");
+    hobo.SetAge(4);
+    hobo.SetGender("boy");
+    hotel.AddCat(hobo);
+
+    hobo.SetName("Yulia");
+    hobo.SetAge(2);
+    hobo.SetGender("girl");
+    hotel.AddCat(hobo);
+
+    std::cout << hotel[1].Info();
+    std::cout << hotel[0].Info();
+
+    BlackMagic(hotel);
+
+    return 0;
 }
 
